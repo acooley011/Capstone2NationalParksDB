@@ -38,14 +38,12 @@ public class CampgroundCLI {
 
 	public static void main(String[] args) {
 		CampgroundCLI application = new CampgroundCLI();
-		application.run();
-		
-		
-		
-		
+		application.run();	
 	}
 
 	public CampgroundCLI() {
+		this.menu = new Menu(System.in, System.out);
+		
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setUrl("jdbc:postgresql://localhost:5432/capstone-2");
 		dataSource.setUsername("postgres");
@@ -55,24 +53,32 @@ public class CampgroundCLI {
 	}
 
 	public void run() {
-
-	}
-	
-	private void handleListParks() {
-		printHeading("All Parks");
-		List<Park> allParks = parkDAO.viewAllParksMenu();
-		listParks(allParks);
-	}
-	
-	private void listParks(List<Park> parks) {
-		System.out.println();
-		if(parks.size() > 0) {
-			for(Park thePark : parks) {
-				System.out.println(thePark.getName() + " | " + thePark.getPark_id());
+		while(true) {
+			printHeading("Main Menu");
+			List<Park> allParks = parkDAO.viewAllParksMenu();
+			final String[] parkMenuOptions = listParks(allParks);
+			String choice = (String)menu.getChoiceFromOptions(parkMenuOptions);
+			if(choice.equals(parkMenuOptions[0])) {
+				
+			} else if(choice.equals(parkMenuOptions[1])) {
+				
+			} else if(choice.equals(parkMenuOptions[2])) {
+				
+			} else if(choice.equals(parkMenuOptions[parkMenuOptions.length - 1])) {
+				System.exit(0);
 			}
-		} else {
-			System.out.println("\n*** No results ***");
 		}
+	}
+	
+	private String[] listParks(List<Park> parks) {
+		final String[] parkMenuOptions = new String[parks.size()+1];
+			for (int i = 0; i < parks.size(); i++) {
+				parkMenuOptions[i] = parks.get(i).toString();
+				if (i == parks.size() - 1) {
+					parkMenuOptions[i+1] = "Exit";
+				}
+			}
+		return parkMenuOptions;
 	}
 	
 	private void printHeading(String headingText) {

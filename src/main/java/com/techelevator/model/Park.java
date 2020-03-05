@@ -53,6 +53,11 @@ public class Park {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public String toString() {
+		return name;
+	}
+	
 }
 	
 
