@@ -6,6 +6,6 @@ public interface ParkDAO {
 
 	public List<Park> viewAllParksMenu();
 	
-	public List<Park> viewParkInfo(Long selectedPark);
+	public void viewParkInfo(Long selectedPark);
 	
 }
