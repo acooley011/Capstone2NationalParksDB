@@ -18,18 +18,7 @@ import com.techelevator.model.jdbc.JDBCReservationDAO;
 import com.techelevator.model.jdbc.JDBCSiteDAO;
 import com.techelevator.model.jdbc.JDBCCampgroundDAO;
 
-public class CampgroundCLI {
-	private static final String MAIN_MENU_OPTION_EMPLOYEES = "Employees";
-	private static final String MAIN_MENU_OPTION_DEPARTMENTS = "Departments";
-	private static final String MAIN_MENU_OPTION_PROJECTS = "Projects";
-	private static final String MAIN_MENU_OPTION_EXIT = "Exit";
-	private static final String[] MAIN_MENU_OPTIONS = new String[] { MAIN_MENU_OPTION_DEPARTMENTS, 
-																	 MAIN_MENU_OPTION_EMPLOYEES, 
-																	 MAIN_MENU_OPTION_PROJECTS, 
-																	 MAIN_MENU_OPTION_EXIT };
-
-	private static final String MENU_OPTION_RETURN_TO_MAIN = "Return to main menu";
-	
+public class CampgroundCLI {	
 	private Menu menu;
 	private ReservationDAO reservationDAO;
 	private SiteDAO siteDAO;
@@ -59,11 +48,11 @@ public class CampgroundCLI {
 			final String[] parkMenuOptions = listParks(allParks);
 			String choice = (String)menu.getChoiceFromOptions(parkMenuOptions);
 			if(choice.equals(parkMenuOptions[0])) {
-				
+				parkDAO.viewParkInfo(1L);
 			} else if(choice.equals(parkMenuOptions[1])) {
-				
+				parkDAO.viewParkInfo(2L);
 			} else if(choice.equals(parkMenuOptions[2])) {
-				
+				parkDAO.viewParkInfo(3L);
 			} else if(choice.equals(parkMenuOptions[parkMenuOptions.length - 1])) {
 				System.exit(0);
 			}

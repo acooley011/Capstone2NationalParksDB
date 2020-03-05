@@ -34,8 +34,21 @@ public class JDBCParkDAO implements ParkDAO{
 	}
 	
 	@Override
-	public List<Park> viewParkInfo(Long selectedPark){
-		return null;
+	public void viewParkInfo(Long selectedPark){
+		String sqlGetAllParks = "SELECT * "+
+				   "FROM park " +
+				   "WHERE park_id = ?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetAllParks, selectedPark);
+		results.next();
+		Park thePark = mapRowToPark(results);
+		System.out.println(thePark.getName());
+		
+		System.out.println("Location \t\t" + thePark.getLocation());
+		System.out.println("Established \t\t" + thePark.getEstablish_date());
+		System.out.println("Area \t\t" + thePark.getArea() + " sq km");
+		System.out.println("Annual Visitors \t\t" + thePark.getVisitors());
+		System.out.println();
+		System.out.println(thePark.getDescription());
 	}
 	
 	private Park mapRowToPark(SqlRowSet results) {
