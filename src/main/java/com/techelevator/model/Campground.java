@@ -10,6 +10,7 @@ public class Campground {
 	private double area;
 	private int visitors;
 	private String description;
+	
 	public Long getPark_id() {
 		return park_id;
 	}
