@@ -1,5 +1,5 @@
 package com.techelevator.model.jdbc;
 
-public class JDBCParkDAO {
+public class JDBCParkDAO implements ParkDAO{
 
 }

@@ -1,5 +1,5 @@
 package com.techelevator.model.jdbc;
 
-public class JDBCCampgroundDAO {
+public class JDBCCampgroundDAO implements CampgroundDAO {
 
 }

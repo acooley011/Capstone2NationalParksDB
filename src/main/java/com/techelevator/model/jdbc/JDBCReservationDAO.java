@@ -1,5 +1,7 @@
 package com.techelevator.model.jdbc;
 
-public class JDBCReservationDAO {
+import com.techelevator.model.ReservationDAO;
+
+public class JDBCReservationDAO implements ReservationDAO {
 
 }
