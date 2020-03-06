@@ -119,8 +119,7 @@ public class CampgroundCLI {
 		LocalDate inputArrival = LocalDate.parse(inputDate.nextLine());
 		System.out.println("What is the departure date? (format as YYYY-MM-DD): ");
 		LocalDate inputDeparture = LocalDate.parse(inputDate.nextLine());
-		input.close();
-		inputDate.close();
+		
 
 		List<Site> sitesInRange = siteDAO.searchForSiteInDateRange(inputCampground, inputArrival, inputDeparture);
 		System.out.println("Site no.\tMax Occup.\tAccessible?\tMax RV Length\tUtility");
@@ -130,16 +129,21 @@ public class CampgroundCLI {
 
 	public void reservationPrompt(Long selected_park_id, LocalDate inputArrival, LocalDate inputDeparture) {
 		Scanner input = new Scanner(System.in);
+		Scanner nameInput = new Scanner(System.in);
 		System.out.println("Which site will you reserve? (enter 0 to cancel): ");
+		
 		int inputSite = input.nextInt();
+
 		if (inputSite == 0) {
 			campgroundReserveScreen(selected_park_id);
-		}
+		} 
 		System.out.println("What name should the reservation be made under?: ");
-		String inputName = input.nextLine();
+		String inputName = nameInput.nextLine();
 		
-		reservationDAO.createReservationFromSite(inputSite, inputName, inputArrival, inputDeparture);
-		System.out.println("The reservation has been made and the reservation id is ");
+		Long reservationId = reservationDAO.createReservationFromSite(inputSite, inputName, inputArrival, inputDeparture);
+		System.out.println("The reservation has been made and the reservation id is " + reservationId);
+		System.out.println("Returning to main menu...");
+		run();
 	}
 
 	private String[] listParks(List<Park> parks) {

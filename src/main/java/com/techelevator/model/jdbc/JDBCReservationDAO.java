@@ -21,11 +21,11 @@ public class JDBCReservationDAO implements ReservationDAO {
 	@Override
 	public Long createReservationFromSite(int selectedSite, String name, LocalDate userToDate, LocalDate userFromDate) {	
 		
-		String sqlCreateReservation = "INSERT INTO reservation (SiteId, name, "
-				+ "fromDate, toDate, createDate) VALUES (?, ?, ?, ?)";
+		String sqlCreateReservation = "INSERT INTO reservation (site_id, name, "
+				+ "from_date, to_date, create_date) VALUES (?, ?, ?, ?, ?) RETURNING reservation_id";
 		
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlCreateReservation, selectedSite, name, userToDate, userFromDate);
-	
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlCreateReservation, selectedSite, name, userToDate, userFromDate, LocalDate.now());
+		results.next();
 		return results.getLong("reservation_id");
 		
 	}
