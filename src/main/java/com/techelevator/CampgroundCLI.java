@@ -43,7 +43,7 @@ public class CampgroundCLI {
 
 	public void run() {
 		while (true) {
-			printHeading("Main Menu");
+			printHeading("Select a park for further details:");
 			List<Park> allParks = parkDAO.viewAllParksMenu();
 			final String[] parkMenuOptions = listParks(allParks);
 			String choice = (String) menu.getChoiceFromOptions(parkMenuOptions);
