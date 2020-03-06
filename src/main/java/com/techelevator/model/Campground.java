@@ -6,8 +6,8 @@ public class Campground {
 	private Long campground_id;
 	private Long park_id;
 	private String name;
-	private LocalDate open_from_mm;
-	private LocalDate open_to_mm;
+	private int open_from_mm;
+	private int open_to_mm;
 	private double daily_fee;
 	
 	public Long getCampground_id() {
@@ -28,16 +28,16 @@ public class Campground {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public LocalDate getOpen_from_mm() {
+	public int getOpen_from_mm() {
 		return open_from_mm;
 	}
-	public void setOpen_from_mm(LocalDate open_from_mm) {
+	public void setOpen_from_mm(int open_from_mm) {
 		this.open_from_mm = open_from_mm;
 	}
-	public LocalDate getOpen_to_mm() {
+	public int getOpen_to_mm() {
 		return open_to_mm;
 	}
-	public void setOpen_to_mm(LocalDate open_to_mm) {
+	public void setOpen_to_mm(int open_to_mm) {
 		this.open_to_mm = open_to_mm;
 	}
 	public double getDaily_fee() {

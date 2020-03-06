@@ -19,7 +19,7 @@ public class JDBCReservationDAO implements ReservationDAO {
 	}
 
 	@Override
-	public Long createReservationFromSite(int selectedSite, String name, LocalDate userToDate, LocalDate userFromDate) {
+	public Long createReservationFromSite(int selectedSite, String name, LocalDate userToDate, LocalDate userFromDate) {	
 		
 		String sqlCreateReservation = "INSERT INTO reservation (SiteId, name, "
 				+ "fromDate, toDate, createDate) VALUES (?, ?, ?, ?)";

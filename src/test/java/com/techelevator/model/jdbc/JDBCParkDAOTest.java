@@ -99,9 +99,11 @@ public class JDBCParkDAOTest {
 	@Test
 	public void viewParkInfoTest() {
 		
+		Park expected = getPark()
 		
 		
-		List<Park> actual = dao.viewAllParksMenu();
+				
+		List<Park> actual = dao.viewParkInfo();
 		
 		assertParksAreEqual(actual, );
 	}	
