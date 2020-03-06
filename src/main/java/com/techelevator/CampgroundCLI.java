@@ -122,6 +122,10 @@ public class CampgroundCLI {
 		
 
 		List<Site> sitesInRange = siteDAO.searchForSiteInDateRange(inputCampground, inputArrival, inputDeparture);
+		if (sitesInRange.size() == 0) {
+			System.out.println("Sorry, no sites are available in that timeframe. Try another date range.");
+			checkAvailabilityPrompt(selected_park_id);
+		}
 		System.out.println("Site no.\tMax Occup.\tAccessible?\tMax RV Length\tUtility");
 		listSites(sitesInRange);
 		reservationPrompt(selected_park_id, inputArrival, inputDeparture);

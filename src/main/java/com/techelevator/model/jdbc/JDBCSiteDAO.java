@@ -26,12 +26,18 @@ public class JDBCSiteDAO implements SiteDAO {
 
 		List<Site> output = new ArrayList<Site>();
 		
-		String sqlSearchForSite = "SELECT site.* FROM site JOIN reservation ON site.site_id = reservation.site_id "
-				+ "WHERE ? NOT BETWEEN reservation.to_date AND reservation.from_date "
-				+ "AND ? NOT BETWEEN reservation.to_date AND reservation.from_date";
+		String sqlSearchForSite = "SELECT distinct site.* FROM site "
+				+ "LEFT JOIN reservation ON reservation.site_id = site.site_id "
+				+ "WHERE NOT (reservation.from_date BETWEEN ? AND ? "
+				+ "OR reservation.to_date BETWEEN ? AND ? "
+				+ "OR ? BETWEEN reservation.from_date AND reservation.to_date "
+				+ "OR ? BETWEEN reservation.from_date AND reservation.to_date) "
+				+ "ORDER BY site_number";
 		
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSearchForSite, userToDate, userFromDate);
-		
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSearchForSite, userFromDate, userToDate, userFromDate, userToDate, userFromDate, userToDate);
+		if (results.wasNull()) {
+			return output;
+		}
 		while(results.next()) {
 			Site nextSite = new Site();
 			nextSite.setSiteId(results.getLong("site_id"));
@@ -47,7 +53,7 @@ public class JDBCSiteDAO implements SiteDAO {
 		}
 		
 		return output;
-		
+
 	}
 
 }
