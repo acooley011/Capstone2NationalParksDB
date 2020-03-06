@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 
+import com.techelevator.model.Campground;
 import com.techelevator.model.CampgroundDAO;
 import com.techelevator.model.Park;
 import com.techelevator.model.ParkDAO;
@@ -24,6 +25,13 @@ public class CampgroundCLI {
 	private SiteDAO siteDAO;
 	private ParkDAO parkDAO;
 	private CampgroundDAO campgroundDAO;
+	
+	private static final String CGMENU_OPTION_VIEW_CAMPGROUND = "View Campgrounds";
+	private static final String CGMENU_OPTION_SEARCH_RESERVATION = "Search for Reservation";
+	private static final String CGMENU_OPTION_RETURN_TO_PREV = "Return to Previous Screen";
+	private static final String[] CGMENU_OPTIONS = new String[] {CGMENU_OPTION_VIEW_CAMPGROUND,
+																CGMENU_OPTION_SEARCH_RESERVATION,
+																CGMENU_OPTION_RETURN_TO_PREV};
 
 	public static void main(String[] args) {
 		CampgroundCLI application = new CampgroundCLI();
@@ -39,6 +47,7 @@ public class CampgroundCLI {
 		dataSource.setPassword("postgres1");
 
 		parkDAO = new JDBCParkDAO(dataSource);
+		campgroundDAO = new JDBCCampgroundDAO(dataSource);
 	}
 
 	public void run() {
@@ -49,12 +58,29 @@ public class CampgroundCLI {
 			String choice = (String) menu.getChoiceFromOptions(parkMenuOptions);
 			if (choice.equals(parkMenuOptions[0])) {
 				parkDAO.viewParkInfo(1L);
+				parkInfoScreen(1L);
 			} else if (choice.equals(parkMenuOptions[1])) {
 				parkDAO.viewParkInfo(2L);
+				parkInfoScreen(2L);
 			} else if (choice.equals(parkMenuOptions[2])) {
 				parkDAO.viewParkInfo(3L);
+				parkInfoScreen(3L);
 			} else if (choice.equals(parkMenuOptions[parkMenuOptions.length - 1])) {
 				System.exit(0);
+			}
+		}
+	}
+
+	public void parkInfoScreen(Long selected_park_id) {
+		while (true) {
+			printHeading("Select a command:");
+			String choice = (String) menu.getChoiceFromOptions(CGMENU_OPTIONS);
+			if (choice.equals(CGMENU_OPTION_VIEW_CAMPGROUND)) {
+				campgroundDAO.viewCampgroundsFromPark(selected_park_id);
+			} else if (choice.equals(CGMENU_OPTION_SEARCH_RESERVATION)) {
+				parkDAO.viewParkInfo(2L);
+			} else if (choice.equals(CGMENU_OPTION_RETURN_TO_PREV)) {
+				parkDAO.viewParkInfo(3L);
 			}
 		}
 	}
