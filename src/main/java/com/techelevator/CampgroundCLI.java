@@ -78,9 +78,9 @@ public class CampgroundCLI {
 			if (choice.equals(CGMENU_OPTION_VIEW_CAMPGROUND)) {
 				campgroundDAO.viewCampgroundsFromPark(selected_park_id);
 			} else if (choice.equals(CGMENU_OPTION_SEARCH_RESERVATION)) {
-				parkDAO.viewParkInfo(2L);
+				
 			} else if (choice.equals(CGMENU_OPTION_RETURN_TO_PREV)) {
-				parkDAO.viewParkInfo(3L);
+				
 			}
 		}
 	}
