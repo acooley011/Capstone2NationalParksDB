@@ -91,21 +91,23 @@ public class JDBCParkDAOTest {
 	@Test
 	public void viewAllParksMenuTest() {
 		
+		Park expected = getPark(1, "Acadia", "Maine", LocalDate.parse("1919-02-26"), 47389, 2563129, "Covering most of Mount Desert Island and other coastal islands, Acadia features the tallest mountain on the Atlantic coast of the United States, granite peaks, ocean shoreline, woodlands, and lakes. There are freshwater, estuary, forest, and intertidal habitats.");
+
 		List<Park> actual = dao.viewAllParksMenu();
 		
 		assertEquals(3, actual.size());
+		assertParksAreEqual(actual.get(0), expected);
+
 	}
 
 	@Test
 	public void viewParkInfoTest() {
 		
-		Park expected = getPark()
+		Park expected = getPark(1, "Acadia", "Maine", LocalDate.parse("1919-02-26"), 47389, 2563129, "Covering most of Mount Desert Island and other coastal islands, Acadia features the tallest mountain on the Atlantic coast of the United States, granite peaks, ocean shoreline, woodlands, and lakes. There are freshwater, estuary, forest, and intertidal habitats.");
 		
+		dao.viewParkInfo((long) 1);
 		
-				
-		List<Park> actual = dao.viewParkInfo();
-		
-		assertParksAreEqual(actual, );
+		//assertParksAreEqual(actual, expected);
 	}	
 	
 }

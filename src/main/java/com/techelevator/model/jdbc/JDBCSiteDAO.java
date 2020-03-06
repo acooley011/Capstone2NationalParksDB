@@ -28,7 +28,7 @@ public class JDBCSiteDAO implements SiteDAO {
 		
 		String sqlSearchForSite = "SELECT site.* FROM site JOIN reservation ON site.site_id = reservation.site_id "
 				+ "WHERE ? NOT BETWEEN reservation.to_date AND reservation.from_date "
-				+ "AND ? NOT BETWEEN reservation.to_date AND reservation.from_date";
+				+ "AND ? NOT BETWEEN reservation.to_date AND reservation.from_date ";
 		
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSearchForSite, userToDate, userFromDate);
 		
