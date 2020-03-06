@@ -12,45 +12,42 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import com.techelevator.model.Park;
 import com.techelevator.model.ParkDAO;
 
-public class JDBCParkDAO implements ParkDAO{
+public class JDBCParkDAO implements ParkDAO {
 
 	private JdbcTemplate jdbcTemplate;
 
 	public JDBCParkDAO(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
-	
+
 	@Override
-	public List<Park> viewAllParksMenu(){
+	public List<Park> viewAllParksMenu() {
 		ArrayList<Park> allParks = new ArrayList<>();
-		String sqlGetAllParks = "SELECT * "+
-							   "FROM park ";
+		String sqlGetAllParks = "SELECT * " + "FROM park ";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetAllParks);
-		while(results.next()) {
+		while (results.next()) {
 			Park thePark = mapRowToPark(results);
 			allParks.add(thePark);
 		}
 		return allParks;
 	}
-	
+
 	@Override
-	public void viewParkInfo(Long selectedPark){
-		String sqlGetAllParks = "SELECT * "+
-				   "FROM park " +
-				   "WHERE park_id = ?";
+	public void viewParkInfo(Long selectedPark) {
+		String sqlGetAllParks = "SELECT * " + "FROM park " + "WHERE park_id = ?";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetAllParks, selectedPark);
 		results.next();
 		Park thePark = mapRowToPark(results);
 		System.out.println(thePark.getName());
-		
+
 		System.out.println("Location \t\t" + thePark.getLocation());
 		System.out.println("Established \t\t" + thePark.getEstablish_date());
-		System.out.println("Area \t\t" + thePark.getArea() + " sq km");
-		System.out.println("Annual Visitors \t\t" + thePark.getVisitors());
+		System.out.println("Area \t\t\t" + thePark.getArea() + " sq km");
+		System.out.println("Annual Visitors \t" + thePark.getVisitors());
 		System.out.println();
 		System.out.println(thePark.getDescription());
 	}
-	
+
 	private Park mapRowToPark(SqlRowSet results) {
 		Park thePark;
 		thePark = new Park();
@@ -67,15 +64,5 @@ public class JDBCParkDAO implements ParkDAO{
 		thePark.setDescription(results.getString("description"));
 		return thePark;
 	}
-	
-}
 
-/*
-private Long park_id;
-private String name;
-private String location;
-private LocalDate establish_date;
-private double area;
-private int visitors;
-private String description;
-*/
+}
