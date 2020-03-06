@@ -32,12 +32,12 @@ public class JDBCCampgroundDAO implements CampgroundDAO {
 			allCampgroundsFromPark.add(theCampground);
 		}
 		DecimalFormat dollar = new DecimalFormat("$#.00");
-		System.out.println("\t Name \t Open \t Close \t Daily Fee");
+		System.out.println("\t Name \t\t Open \t\t Close \t\t Daily Fee");
 		for (int i = 0; i < allCampgroundsFromPark.size(); i++) {
 			System.out.print("#" + (i+1) + " " + allCampgroundsFromPark.get(i).getName());
-			System.out.print("\t" + allCampgroundsFromPark.get(i).getOpen_from_mm());
-			System.out.print("\t" + allCampgroundsFromPark.get(i).getOpen_to_mm());
-			System.out.print("\t" + dollar.format(allCampgroundsFromPark.get(i).getDaily_fee()));
+			System.out.print("\t\t" + allCampgroundsFromPark.get(i).getOpen_from_mm());
+			System.out.print("\t\t" + allCampgroundsFromPark.get(i).getOpen_to_mm());
+			System.out.print("\t\t" + dollar.format(allCampgroundsFromPark.get(i).getDaily_fee()));
 			System.out.println();
 		}
 		return allCampgroundsFromPark;

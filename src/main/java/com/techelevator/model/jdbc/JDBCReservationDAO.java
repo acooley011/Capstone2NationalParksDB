@@ -24,7 +24,7 @@ public class JDBCReservationDAO implements ReservationDAO {
 	}
 
 	@Override
-	public void createReservationFromSite(int selectedSite, String name, Date userToDate, Date userFromDate) {
+	public void createReservationFromSite(int selectedSite, String name, LocalDate userToDate, LocalDate userFromDate) {
 		
 		List<Reservation> output = new ArrayList<Reservation>();
 		

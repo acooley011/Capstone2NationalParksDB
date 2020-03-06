@@ -50,5 +50,10 @@ public class Site {
 	public void setUtilities(boolean utilities) {
 		this.utilities = utilities;
 	}
+	
+	public String toString() {
+		String siteInfo = String.valueOf(siteNumber) + "\t\t" + String.valueOf(maxOccupancy) + "\t\t" + String.valueOf(accessible) + "\t\t" + String.valueOf(maxRVLength) + "\t\t" + String.valueOf(utilities) + "\t\t";
+		return siteInfo;
+	}
 
 }
