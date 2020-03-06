@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface CampgroundDAO {
 
-	public List<Campground> viewCampgroundsFromPark();
+	public List<Campground> viewCampgroundsFromPark(Long park_id);
 	
 	
 }
