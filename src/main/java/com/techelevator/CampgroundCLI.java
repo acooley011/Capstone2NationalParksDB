@@ -2,6 +2,7 @@ package com.techelevator;
 
 import com.techelevator.view.*;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
@@ -21,6 +22,7 @@ import com.techelevator.model.jdbc.JDBCParkDAO;
 import com.techelevator.model.jdbc.JDBCReservationDAO;
 import com.techelevator.model.jdbc.JDBCSiteDAO;
 import com.techelevator.model.jdbc.JDBCCampgroundDAO;
+import java.time.temporal.ChronoUnit;
 
 public class CampgroundCLI {
 	private Menu menu;
@@ -85,9 +87,9 @@ public class CampgroundCLI {
 			String choice = (String) menu.getChoiceFromOptions(CGMENU_OPTIONS);
 			if (choice.equals(CGMENU_OPTION_VIEW_CAMPGROUND)) {
 				campgroundDAO.viewCampgroundsFromPark(selected_park_id);
-				campgroundReserveScreen(selected_park_id);
 			} else if (choice.equals(CGMENU_OPTION_SEARCH_RESERVATION)) {
 				campgroundDAO.viewCampgroundsFromPark(selected_park_id);
+				campgroundReserveScreen(selected_park_id);
 			} else if (choice.equals(CGMENU_OPTION_RETURN_TO_PREV)) {
 				run();
 			}
@@ -99,15 +101,15 @@ public class CampgroundCLI {
 			printHeading("Select a command:");
 			String choice = (String) menu.getChoiceFromOptions(RESMENU_OPTIONS);
 			if (choice.equals(RESMENU_SEARCH_AVAILABLE)) {
-				campgroundDAO.viewCampgroundsFromPark(selected_park_id);
-				checkAvailabilityPrompt(selected_park_id);
+				List<Campground> allCampgroundsFromPark = campgroundDAO.viewCampgroundsFromPark(selected_park_id);
+				checkAvailabilityPrompt(selected_park_id, allCampgroundsFromPark);
 			} else if (choice.equals(RESMENU_RETURN_TO_PREV)) {
 				parkInfoScreen(selected_park_id);
 			}
 		}
 	}
 
-	public void checkAvailabilityPrompt(Long selected_park_id) {
+	public void checkAvailabilityPrompt(Long selected_park_id, List<Campground> allCampgroundsFromPark) {
 		Scanner input = new Scanner(System.in);
 		Scanner inputDate = new Scanner(System.in);
 		System.out.println("Which campground? (enter 0 to cancel): ");
@@ -115,19 +117,21 @@ public class CampgroundCLI {
 		if (inputCampground == 0) {
 			campgroundReserveScreen(selected_park_id);
 		}
+		Double campgroundDailyFee = allCampgroundsFromPark.get((int) (inputCampground-1)).getDaily_fee();
 		System.out.println("What is the arrival date? (format as YYYY-MM-DD): ");
 		LocalDate inputArrival = LocalDate.parse(inputDate.nextLine());
 		System.out.println("What is the departure date? (format as YYYY-MM-DD): ");
 		LocalDate inputDeparture = LocalDate.parse(inputDate.nextLine());
+		double daysBetween = ChronoUnit.DAYS.between(inputArrival, inputDeparture);
+		double fullCost = campgroundDailyFee * daysBetween; 
 		
-
 		List<Site> sitesInRange = siteDAO.searchForSiteInDateRange(inputCampground, inputArrival, inputDeparture);
 		if (sitesInRange.size() == 0) {
 			System.out.println("Sorry, no sites are available in that timeframe. Try another date range.");
-			checkAvailabilityPrompt(selected_park_id);
+			checkAvailabilityPrompt(selected_park_id, allCampgroundsFromPark);
 		}
 		System.out.println("Site no.\tMax Occup.\tAccessible?\tMax RV Length\tUtility");
-		listSites(sitesInRange);
+		listSites(sitesInRange, fullCost);
 		reservationPrompt(selected_park_id, inputArrival, inputDeparture);
 	}
 
@@ -161,9 +165,10 @@ public class CampgroundCLI {
 		return parkMenuOptions;
 	}
 
-	private void listSites(List<Site> sitesInRange) {
+	private void listSites(List<Site> sitesInRange, double fullCost) {
+		DecimalFormat dollar = new DecimalFormat("$#.00");
 		for (int i = 0; i < sitesInRange.size(); i++) {
-			System.out.println(sitesInRange.get(i).toString());
+			System.out.println(sitesInRange.get(i).toString() + dollar.format(fullCost));
 		}
 	}
 
