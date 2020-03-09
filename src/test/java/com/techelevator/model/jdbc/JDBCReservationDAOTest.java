@@ -2,6 +2,7 @@ package com.techelevator.model.jdbc;
 
 import static org.junit.Assert.assertEquals;
 
+
 import java.sql.SQLException;
 import java.time.LocalDate;
 
@@ -39,12 +40,6 @@ public class JDBCReservationDAOTest extends DAOIntegrationTest{
 		return theReservation;
 	}
 	
-	private void assertReservationsAreEqual(Reservation expected, Reservation actual) {
-		assertEquals(expected.getReservationId(), actual.getReservationId());
-		assertEquals(expected.getName(), actual.getName());
-		assertEquals(expected.getSiteId(), actual.getSiteId());
-
-	}
 
 	/* Before any tests are run, this method initializes the datasource for testing. */
 	@BeforeClass
@@ -69,6 +64,10 @@ public class JDBCReservationDAOTest extends DAOIntegrationTest{
 	public void setup() {
 		
 		dao = new JDBCReservationDAO(dataSource);
+		
+		String sqlDeleteReservation = "DELETE FROM reservation";
+		jdbcTemplate.update(sqlDeleteReservation);
+
 	}
 	
 	/* After each test, we rollback any changes that were made to the database so that
@@ -86,6 +85,16 @@ public class JDBCReservationDAOTest extends DAOIntegrationTest{
 	
 	@Test
 	public void createReservationFromSiteTest() {
+		LocalDate testDateFrom = LocalDate.parse("2001-02-22");
+		LocalDate testDateTo = LocalDate.parse("2001-09-22");
+		Reservation expected = getReservation((long)1, "Joeb", (long)1, LocalDate.now(), testDateFrom, testDateTo);
+
+		Long actualId = dao.createReservationFromSite(1, "Joeb", testDateFrom, testDateTo);
+		
+		String sqlGetExpectedId = "SELECT reservation_id FROM reservation WHERE reservation_id = ?";
+		long expectedId = jdbcTemplate.queryForObject(sqlGetExpectedId, Long.class, actualId);
+		
+		assert(expectedId == actualId);
 		
 		
 		

@@ -25,7 +25,6 @@ public class JDBCSiteDAO implements SiteDAO {
 			LocalDate userFromDate) {
 
 		List<Site> output = new ArrayList<Site>();
-		
 
 		String sqlSearchForSite = "SELECT * FROM site where "
 				+ "campground_id = ? AND "

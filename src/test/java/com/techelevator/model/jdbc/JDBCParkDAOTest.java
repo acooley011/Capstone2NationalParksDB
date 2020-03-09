@@ -99,15 +99,15 @@ public class JDBCParkDAOTest {
 		assertParksAreEqual(actual.get(0), expected);
 
 	}
-
+	
 	@Test
 	public void viewParkInfoTest() {
-		
 		Park expected = getPark(1, "Acadia", "Maine", LocalDate.parse("1919-02-26"), 47389, 2563129, "Covering most of Mount Desert Island and other coastal islands, Acadia features the tallest mountain on the Atlantic coast of the United States, granite peaks, ocean shoreline, woodlands, and lakes. There are freshwater, estuary, forest, and intertidal habitats.");
 		
-		dao.viewParkInfo((long) 1);
+//		String[] actual = dao.viewParkInfo((long) 1);
+//		
+//		assertEquals(dao.viewParkInfo((long) 1),expected);
 		
-		//assertParksAreEqual(actual, expected);
-	}	
+	}
 	
 }

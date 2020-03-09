@@ -23,24 +23,29 @@ import com.techelevator.model.Site;
 public class JDBCSiteDAOTest extends DAOIntegrationTest {
 
 	private static SingleConnectionDataSource dataSource;
-	private JDBCReservationDAO dao;
+	private JDBCSiteDAO dao;
 	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 	
-	private Reservation getReservation(long id, String name, long siteID, LocalDate createDate, LocalDate toDate, LocalDate fromDate) {
-		Reservation theReservation = new Reservation();
-		theReservation.setName(name);
-		theReservation.setReservationId(id);
-		theReservation.setSiteId(siteID);
-		theReservation.setCreateDate(createDate);
-		theReservation.setToDate(toDate);;
-		theReservation.setFromDate(fromDate);
-		return theReservation;
+	private Site getSite(long siteId, long campgroundId, int siteNumber, int maxOccupancy, boolean utilities, boolean accessible, double maxRVLength) {
+		Site theSite = new Site();
+		theSite.setSiteId(siteId);
+		theSite.setCampgroundId(campgroundId);
+		theSite.setSiteNumber(siteNumber);
+		theSite.setMaxOccupancy(maxOccupancy);
+		theSite.setUtilities(utilities);
+		theSite.setAccessible(accessible);
+		theSite.setMaxRVLength(maxRVLength);
+		return theSite;
 	}
 	
-	private void assertReservationsAreEqual(Reservation expected, Reservation actual) {
-		assertEquals(expected.getReservationId(), actual.getReservationId());
-		assertEquals(expected.getName(), actual.getName());
+	private void assertSitesAreEqual(Site expected, Site actual) {
+		assertEquals(expected.getCampgroundId(), actual.getCampgroundId());
 		assertEquals(expected.getSiteId(), actual.getSiteId());
+		assertEquals(expected.getSiteNumber(), actual.getSiteNumber());
+		assertEquals(expected.getMaxOccupancy(), actual.getMaxOccupancy());
+		assert(expected.getMaxRVLength() == actual.getMaxRVLength());
+		assertEquals(expected.isAccessible(), actual.isAccessible());
+		assertEquals(expected.isUtilities(), actual.isUtilities());
 
 	}
 
@@ -66,7 +71,9 @@ public class JDBCSiteDAOTest extends DAOIntegrationTest {
 	@Before
 	public void setup() {
 		
-		dao = new JDBCReservationDAO(dataSource);
+		dao = new JDBCSiteDAO(dataSource);
+		
+		
 	}
 	
 	/* After each test, we rollback any changes that were made to the database so that
@@ -83,8 +90,13 @@ public class JDBCSiteDAOTest extends DAOIntegrationTest {
 	}
 	
 	@Test
-	public List<Site> searchForSiteInDateRangeTest() {
+	public void searchForSiteInDateRangeTest() {
 		
-		return null;
+		LocalDate testDateFrom = LocalDate.parse("2001-02-22");
+		LocalDate testDateTo = LocalDate.parse("2001-09-22");
+		
+		List<Site> actual = dao.searchForSiteInDateRange((long)7, testDateFrom, testDateTo);
+		
+		assertEquals(5, actual.size());
 	}
 }
